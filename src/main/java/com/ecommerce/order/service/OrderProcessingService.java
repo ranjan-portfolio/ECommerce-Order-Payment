@@ -65,11 +65,11 @@ public class OrderProcessingService {
                 orderRepository.save(currentOrder);
 
                 //Use Kafka to send notification to notification service to vendor (vendor group)
-                kafkaTemplate.send(VENDOR_TOPIC, currentOrder);
+                kafkaTemplate.send(VENDOR_TOPIC,order.getOrderId().toString(),currentOrder);
 
 
                 //Use kafka to send notification to notification service to customer (customer group)
-                kafkaTemplate.send(CUSTOMER_TOPIC, currentOrder);
+                kafkaTemplate.send(CUSTOMER_TOPIC, order.getOrderId().toString(),currentOrder);
                                 
             }
             else if(status!=null && status.equals(ORDER_PAYMENT_FAILED)){
